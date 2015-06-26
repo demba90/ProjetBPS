@@ -6,7 +6,7 @@
  * Date: 22/05/2015
  * Time: 17:36
  */
- class DaoCompte extends PDO
+class DaoCompte extends PDO
 {
     private static $_instance;
 
@@ -20,7 +20,7 @@
         if (!isset(self::$_instance)) {
             try {
                 $pdo_options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
-                self::$_instance = new PDO('mysql:host=localhost;dbname=db_bps', "root", "", $pdo_options);
+                self::$_instance = new PDO('mysql:host=localhost;dbname=db_bps', "root", "passer", $pdo_options);
             } catch (Exception $e) {
                 die('Erreur: ' . $e->getMessage());
             }
@@ -29,16 +29,16 @@
     }
 
     public  function authentification($numCompte,$password){
-        $bdd =  DAO::getInstance();
-        $stmt = $bdd->prepare('SELECT COUNT(*) FROM compte WHERE numcompte = ? AND password = ?') ;
+        $bdd =  DaoCompte::getInstance();
+        $stmt = $bdd->prepare('SELECT COUNT(*) FROM Compte WHERE numcompte = ? AND password = ?') ;
         $i = $stmt->execute(array($numCompte,$password));
         $i = $stmt->fetchColumn(0);
         return $i ;
-        
+
     }
 
     public function getSolde($numCompte){
-        $bdd =  DAO::getInstance();
+        $bdd =  DaoCompte::getInstance();
         $stmt = $bdd->prepare('SELECT solde FROM Compte WHERE numCompte = ?') ;
         $i = $stmt->execute(array($numCompte));
         $i = $stmt->fetchColumn(0);
@@ -46,7 +46,7 @@
     }
 
     public function getSeuilMinimal($numCompte){
-        $bdd =  DAO::getInstance();
+        $bdd =  DaoCompte::getInstance();
         $stmt = $bdd->prepare('SELECT seuilMin FROM Compte WHERE numCompte = ?') ;
         $i = $stmt->execute(array($numCompte));
         $i = $stmt->fetchColumn(0);
@@ -54,14 +54,14 @@
     }
 
     public function getNom($numCompte){
-        $bdd =  DAO::getInstance();
+        $bdd =  DaoCompte::getInstance();
         $stmt = $bdd->prepare('SELECT nomProprietaire FROM Compte WHERE numCompte = ?') ;
         $i = $stmt->execute(array($numCompte));
         //print_r($stmt->fetchColumn()) ; 
         return $stmt->fetchColumn();
     }
     public function getPrenom($numCompte){
-        $bdd =  DAO::getInstance();
+        $bdd =  DaoCompte::getInstance();
         $stmt = $bdd->prepare('SELECT prenomProprietaire FROM Compte WHERE numCompte = ?') ;
         $i = $stmt->execute(array($numCompte));
         //print_r($stmt->fetchColumn()) ; 
@@ -69,7 +69,7 @@
     }
 
     public function getCni($numCompte){
-        $bdd =  DAO::getInstance();
+        $bdd =  DaoCompte::getInstance();
         $stmt = $bdd->prepare('SELECT numeroCNI FROM Compte WHERE numCompte = ?') ;
         $i = $stmt->execute(array($numCompte));
         //print_r($stmt->fetchColumn()) ; 
