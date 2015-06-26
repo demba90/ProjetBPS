@@ -1,6 +1,6 @@
 <meta charset="utf-8"/>
 <?php
-	require '../classes/model_paiement/PaiementObjet.php';
+	include("../classes/model_paiement/PaiementObjet.php");
 
 	//Note importante: Pour parler plus généralement on dira toujours client au lieu de client
 	setlocale (LC_TIME, 'fr_FR.utf8','fra');  
