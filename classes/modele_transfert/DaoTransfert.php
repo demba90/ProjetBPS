@@ -28,30 +28,52 @@ class DaoTransfert extends PDO
         return self::$_instance;
     }
 
-
-    public function addTransaction($dateCompete){
-        $bdd =  DAO::getInstance();
-        $stmt = $bdd->prepare('INSERT INTO `Transaction`( `dateCompete`) VALUES (?)') ;
-        $i = $stmt->execute(array($dateCompete));
+    /**
+     * @param $dateCompete
+     * @param $type
+     * @param $montant
+     * @return bool
+     */
+    public function addTransaction($dateCompete,$type,$montant){
+        $bdd =  DaoTransfert::getInstance();
+        $stmt = $bdd->prepare('INSERT INTO `Transaction` (`dateCompete`, `typeTransaction`, `montantTransaction`) VALUES  (?,?,?)') ;
+        $i = $stmt->execute(array($dateCompete,$type,$montant));
         //print_r($stmt->fetchColumn()) ; 
         return $i;
     }
 
+    /**
+     * @param $numcompte
+     * @param $codeTransaction
+     */
     public function addCompteTransaction($numcompte,$codeTransaction){
-        $bdd =  DAO::getInstance();
-        $stmt = $bdd->prepare('INSERT INTO `Transaction`(`codeTransaction`, `dateCompete`, `typeTransaction`, `montantTransaction`) VALUES (?,?)') ;
+        $bdd =  DaoTransfert::getInstance();
+        $stmt = $bdd->prepare('INSERT INTO `Compte_has_Transaction`(`Compte_numCompte`, `Transaction_codeTransaction`) VALUES (?,?)') ;
         $i = $stmt->execute(array($numcompte,$codeTransaction));
 
     }
+
+    /**
+     * @param $dateCompete
+     * @return string
+     */
     public function getCodeTransaction($dateCompete){
-        $bdd =  DAO::getInstance();
+        $bdd =  DaoTransfert::getInstance();
         $stmt = $bdd->prepare('SELECT `codeTransaction` FROM `Transaction` WHERE dateCompete = ?') ;
         $i = $stmt->execute(array($dateCompete));
         return $stmt->fetchColumn();
     }
 
+    /**
+     * Cette méthode permet d'enregistrer les codes de paiements utilisé avec les detailles pour le retracer
+     * @param $code
+     * @param $dateUtilisation
+     * @param $numRecepteur
+     * @param $codeTransaction
+     * @return bool
+     */
     public function addUsedCodePaiment($code,$dateUtilisation,$numRecepteur,$codeTransaction){
-        $bdd =  DAO::getInstance();
+        $bdd =  DaoTransfert::getInstance();
         $stmt = $bdd->prepare('INSERT INTO `CodePaiementUtilises`(`code`, `dateUtilisation`, `numRecepteur`, `codeTransaction`) VALUES (?,?,?,?)') ;
         $i = $stmt->execute(array($code,$dateUtilisation,$numRecepteur,$codeTransaction));
         //print_r($stmt->fetchColumn()) ; 
