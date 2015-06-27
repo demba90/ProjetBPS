@@ -26,7 +26,7 @@ ENGINE = MyISAM;
 -- Table `db_bps`.`Transaction`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `db_bps`.`Transaction` (
-  `codeTransaction` INT NOT NULL,
+  `codeTransaction` INT NOT NULL AUTO_INCREMENT,
   `dateCompete` VARCHAR(10) NULL,
   `typeTransaction` VARCHAR(45) NULL,
   `montantTransaction` FLOAT NULL,
@@ -90,6 +90,7 @@ ENGINE = MyISAM;
 -- Table `db_bps`.`CompteAssurance`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `db_bps`.`CompteAssurance` (
+  `idCompteAssurance` INT NOT NULL AUTO_INCREMENT,
   `etat` VARCHAR(15) NOT NULL,
   `typeContrat` VARCHAR(45) NOT NULL,
   `soldeAssurance` DECIMAL(11) NOT NULL,
@@ -98,8 +99,11 @@ CREATE TABLE IF NOT EXISTS `db_bps`.`CompteAssurance` (
   `seuil` DECIMAL(11) NOT NULL,
   `dateDebut` DATE NOT NULL,
   `dateFin` DATE NOT NULL,
-  `benefice` DECIMAL(11) NULL,
-  `CompteAssurancecol` VARCHAR(45) NULL)
+  `benefice` DECIMAL(11) NOT NULL,
+  `CompteAssurancecol` VARCHAR(45) NOT NULL,
+  `Compte_numCompte` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`idCompteAssurance`),
+  INDEX `fk_CompteAssurance_Compte1_idx` (`Compte_numCompte` ASC))
 ENGINE = MyISAM;
 
 
